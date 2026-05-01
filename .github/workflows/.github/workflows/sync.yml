@@ -1,0 +1,25 @@
+name: Sync Fork with Upstream
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Sync upstream
+        uses: wei/git-sync@v3
+        with:
+          source_repo: "huangxd-/danmu_api"
+          source_branch: "main"
+          destination_repo: "shencang-ui/xiaobodanmu_api"
+          destination_branch: "main"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
